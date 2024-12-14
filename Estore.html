@@ -1,1 +1,44 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple E-Commerce</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .product { border: 1px solid #ccc; margin: 10px; padding: 10px; display: inline-block; }
+        button { margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <h1>E-Commerce Website</h1>
+    <div id="products"></div>
+    <script>
+        // Fetch products from Django backend
+        fetch('http://127.0.0.1:8000/products/')
+            .then(response => response.json())
+            .then(products => {
+                const container = document.getElementById('products');
+                products.forEach(product => {
+                    const productDiv = document.createElement('div');
+                    productDiv.className = 'product';
+                    productDiv.innerHTML = `
+                        <h2>${product.name}</h2>
+                        <p>Price: $${product.price}</p>
+                        <button onclick="addToCart(${product.id})">Add to Cart</button>
+                    `;
+                    container.appendChild(productDiv);
+                });
+            });
 
+        function addToCart(productId) {
+            fetch('http://127.0.0.1:5000/api/cart', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ productId })
+            }).then(() => alert('Product added to cart!'));
+        }
+    </script>
+</body>
+</html>
