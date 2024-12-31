@@ -41,14 +41,16 @@ section {
     margin: 0.5em 0;
 }
 
-#about, #projects, #contact {
-    background: #fff;
+#about {
+    background: pink;
 }
+
 
 .project {
     border: 1px solid #ddd;
     margin: 1em;
     padding: 1em;
+    background-color:yellow;
 }
 
 form input, form textarea {
